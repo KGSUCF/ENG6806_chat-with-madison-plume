@@ -188,7 +188,7 @@ load.addEventListener("click", async () => {
   setProgress();
   try {
     if (!character) {
-      const response = await fetch(new URL("./character.md", import.meta.url));
+      const response = await fetch(new URL("./character.md", import.meta.url), { cache: "no-cache" });
       if (!response.ok) throw new Error(`Character file returned ${response.status}`);
       character = (await response.text()).trim();
     }
