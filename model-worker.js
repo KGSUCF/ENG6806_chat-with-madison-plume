@@ -8,6 +8,7 @@ const models = {
   large: {
     id: "onnx-community/SmolLM2-360M-Instruct-ONNX",
     revision: "fe7c7db4c8921c9e3fa1c65cfd296fb3b1b1a8f9",
+    cpuOnly: true,
   },
 };
 
@@ -45,7 +46,8 @@ async function load(model) {
   runtime.env.backends.onnx.wasm.numThreads = 1;
   let adapter;
   try {
-    adapter = await navigator.gpu?.requestAdapter();
+    // Use the verified CPU path for the 360M build after a scrambled-reply report.
+    adapter = selectedModel.cpuOnly ? null : await navigator.gpu?.requestAdapter();
   } catch (error) {
     console.info("WebGPU adapter unavailable", error);
   }

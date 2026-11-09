@@ -192,7 +192,7 @@ load.addEventListener("click", async () => {
       if (!response.ok) throw new Error(`Character file returned ${response.status}`);
       character = (await response.text()).trim();
     }
-    worker = new Worker(new URL("./model-worker.js", import.meta.url), { type: "module" });
+    worker = new Worker(new URL("./model-worker.js?v=2", import.meta.url), { type: "module" });
     worker.onmessage = receive;
     worker.onerror = (event) => {
       console.error(event.message);
