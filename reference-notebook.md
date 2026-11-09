@@ -67,3 +67,89 @@ Ask for the old number, the new number, and the time and place they cover. An in
 A real photo can be shared with the wrong date, place, or caption. A crop can leave out something important. Try a reverse image search to find earlier or wider copies, then compare the captions and check who posted the original. Finding a match is a clue. Check whether the original photo actually supports the claim.
 
 - [Associated Press · How AP verifies images and other online material](https://www.ap.org/verify)
+
+## How a bill becomes a federal law
+<!-- ref: bill-to-law -->
+
+A member of Congress introduces a bill, which is an idea for a law. It can go to a committee for review. To go to the president, the House and Senate must pass the same text. The president can sign it or veto it. Congress can override a veto with a two-thirds vote in each chamber. The Constitution also gives rules for bills the president leaves unsigned.
+
+- [USAGov · How federal laws are made](https://www.usa.gov/how-laws-are-made)
+- [U.S. National Archives · The Constitution, Article I](https://www.archives.gov/founding-docs/constitution-transcript)
+
+## Federal and state powers
+<!-- ref: federalism -->
+
+The United States divides power between the national government and the states. The Constitution gives Congress powers such as regulating trade between states and coining money. Under the Tenth Amendment, powers that the Constitution does not give to the national government or forbid to the states stay with the states or the people. State and national governments can have overlapping jobs, such as collecting taxes.
+
+- [U.S. National Archives · The Constitution, Article I](https://www.archives.gov/founding-docs/constitution-transcript)
+- [U.S. National Archives · The Bill of Rights, including the Tenth Amendment](https://www.archives.gov/founding-docs/bill-of-rights/what-does-it-say)
+
+## The Declaration of Independence and the Constitution
+<!-- ref: founding-documents -->
+
+The Declaration of Independence announced in 1776 that the colonies were breaking away from Britain and gave their reasons. The Constitution, written in 1787, sets up the federal government and describes its powers and limits. One tells why the colonies wanted to become a separate country. The other lays out how the government works.
+
+- [U.S. National Archives · America’s founding documents](https://www.archives.gov/founding-docs)
+
+## How the Constitution is amended
+<!-- ref: amendment-process -->
+
+An amendment changes the Constitution. Two-thirds of each house of Congress can propose one. Article V also allows two-thirds of state legislatures to ask Congress to call a convention to propose changes. Either way, three-fourths of the states must approve an amendment before it becomes part of the Constitution. The president has no formal role in this process.
+
+- [U.S. National Archives · Constitutional amendment process](https://www.archives.gov/federal-register/constitution)
+
+## How Fed interest rates affect borrowing
+<!-- ref: interest-rates -->
+
+The Fed sets a target range for a short-term rate banks use when they lend to one another overnight. A change in that target can affect other rates, including what people and businesses pay to borrow. Higher rates can make it more costly to take out a loan, so some people spend less or wait. That can ease pressure on prices over time. Lenders also consider things like a borrower’s credit and the type of loan.
+
+- [Federal Reserve Board · How monetary policy works](https://www.federalreserve.gov/monetarypolicy/monetary-policy-what-are-its-goals-how-does-it-work.htm)
+
+## Supply, demand, and prices
+<!-- ref: supply-demand -->
+
+Supply is how much sellers are willing to sell at different prices. Demand is how much buyers are willing and able to buy at different prices. If more people want concert tickets and there are the same number of seats, the price tends to rise. If more seats open up and demand stays the same, the price tends to fall. The example changes one thing at a time so you can see its effect.
+
+- [Federal Reserve Bank of St. Louis · Demand, supply, and market equilibrium](https://www.stlouisfed.org/~/media/education/tools/pdf/ea-tools-for-teaching.pdf)
+
+## What GDP measures
+<!-- ref: gdp -->
+
+Gross domestic product, or GDP, measures the value of finished goods and services made inside a country over a period of time. A finished loaf of bread counts. The flour inside it does not get counted again as a separate finished product. Real GDP adjusts for changes in prices so you can compare how much the economy produced over time.
+
+- [U.S. Bureau of Economic Analysis · What to know about GDP](https://www.bea.gov/resources/learning-center/what-to-know-gdp)
+
+## How the unemployment rate is counted
+<!-- ref: unemployment -->
+
+In the main U.S. unemployment rate, an unemployed person generally has no job, is available to work, and has actively looked for work in the past four weeks. People on temporary layoff who expect to be called back can also count. The rate divides the number unemployed by the labor force, which includes employed and unemployed people. Someone who stopped looking for work usually falls outside that measure.
+
+- [U.S. Bureau of Labor Statistics · How the government measures unemployment](https://www.bls.gov/cps/cps_htgm.htm)
+
+## Primary and secondary sources
+<!-- ref: primary-sources -->
+
+A primary source gives direct evidence about what you are studying. A diary from 1787 can be a primary source about life in 1787. A historian’s later article about the diary is a secondary source on that topic. Both can help. Ask what the writer could know, what they left out, and whether other evidence supports their account.
+
+- [Library of Congress · Getting started with primary sources](https://www.loc.gov/programs/teachers/getting-started-with-primary-sources)
+
+## News reporting and opinion
+<!-- ref: news-opinion -->
+
+A news report aims to tell readers what happened and how the reporter knows. An opinion piece makes a case for what the writer thinks. Opinion can use solid facts, and a news story can quote people’s opinions. Look for labels like Opinion or Editorial and ask whether the article’s main job is to report an event or argue a point.
+
+- [News Literacy Project · Information zones](https://newslit.org/wp-content/uploads/2018/11/InfoZones3-1.pdf)
+
+## Misleading chart axes
+<!-- ref: chart-axes -->
+
+Read the numbers and units on a chart before judging its shape. A bar chart that starts at 90 can make 95 and 100 look far apart because you see only the tops of the bars. Bars should start at zero so their lengths show the sizes fairly. A line chart can zoom in to show a small change when its scale is clearly labeled.
+
+- [UK Office for National Statistics · Axes and gridlines](https://service-manual.ons.gov.uk/data-visualisation/guidance/axes-and-gridlines)
+
+## Mean and median
+<!-- ref: mean-median -->
+
+The mean is what you get when you add the numbers and divide by how many you have. The median is the middle after you put them in order. If there are two middle numbers, take their mean. In the list 2, 3, and 100, the mean is 35 and the median is 3. One big number can pull the mean away from what looks typical.
+
+- [National Institute of Standards and Technology · Measures of location](https://itl.nist.gov/div898/handbook/eda/section3/eda351.htm)

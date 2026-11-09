@@ -1,4 +1,4 @@
-import { findNote, parseNotebook } from "./reference-notebook.js?v=4";
+import { findNote, nextSuggestions, parseNotebook } from "./reference-notebook.js?v=5";
 
 const byId = (id) => document.getElementById(id);
 const answerMode = byId("answer-mode");
@@ -12,7 +12,7 @@ const question = byId("question");
 const transcript = byId("transcript");
 const greeting = transcript.firstElementChild;
 const comparisonReference = byId("comparison-reference");
-const starterButtons = [...document.querySelectorAll("[data-question]")];
+const starterButtons = byId("starter-buttons");
 const status = byId("model-status");
 const progress = byId("progress");
 const progressWrap = byId("progress-wrap");
@@ -31,6 +31,7 @@ let history = [];
 let pending;
 let notebook;
 let lastQuestion = "";
+let suggestions = [];
 
 const usesAI = () => answerMode.value === "ai";
 
@@ -75,7 +76,22 @@ function refreshControls() {
   send.disabled = busy || (usesAI() && !ready) || !question.value.trim();
   clear.disabled = busy || transcript.children.length === 1;
   question.readOnly = state === "asking";
-  for (const button of starterButtons) button.disabled = state === "asking";
+  for (const button of starterButtons.children) button.disabled = state === "asking";
+}
+
+function rotateSuggestions(question) {
+  suggestions = nextSuggestions(suggestions, question);
+  starterButtons.replaceChildren(...suggestions.map(({ label, prompt, category, symbol }) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.question = prompt;
+    button.setAttribute("aria-label", `${category}. ${prompt}`);
+    const icon = document.createElement("span");
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = symbol;
+    button.append(icon, ` ${label}`);
+    return button;
+  }));
 }
 
 function resetConversation() {
@@ -281,13 +297,13 @@ answerMode.addEventListener("change", () => {
   syncMode();
 });
 
-for (const button of starterButtons) {
-  button.addEventListener("click", () => {
-    question.value = button.dataset.question;
-    refreshControls();
-    question.focus();
-  });
-}
+starterButtons.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-question]");
+  if (!button) return;
+  question.value = button.dataset.question;
+  refreshControls();
+  question.focus();
+});
 
 question.addEventListener("input", refreshControls);
 clear.addEventListener("click", resetConversation);
@@ -302,6 +318,7 @@ composer.addEventListener("submit", async (event) => {
   comparisonReference.hidden = true;
   addTurn("You", text, "user");
   state = "asking";
+  rotateSuggestions(text);
   refreshControls();
   let note;
   let available = false;
@@ -340,4 +357,5 @@ composer.addEventListener("submit", async (event) => {
   worker.postMessage({ type: "ask", messages });
 });
 
+rotateSuggestions("");
 syncMode();

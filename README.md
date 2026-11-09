@@ -8,6 +8,8 @@ A single-page local AI experiment for ENG 6806, Humanities in the Age of AI. Mad
 2. Select **AI model comparison**, then **Small**, and click **Download model**. A progress bar tracks the model weights. Ask a question once the model is ready.
 3. Pick **Larger** to try the same prompt with the comparison model. Switching modes or downloading a different model starts a fresh chat and keeps your question in the text box. **New chat** clears the conversation without unloading the current model.
 
+**Try a question** shows one prompt each for U.S. government (◆), the U.S. economy ($), and media literacy (?). All three rotate after every question you send, including questions you type yourself.
+
 | Model | 8-bit ONNX weights | Use |
 | --- | ---: | --- |
 | [SmolLM2 135M Instruct](https://huggingface.co/onnx-community/SmolLM2-135M-Instruct-ONNX/tree/main/onnx) | ~136 MB | Start here |
