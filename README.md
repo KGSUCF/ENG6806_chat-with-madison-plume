@@ -15,7 +15,7 @@ A single-page local AI experiment for ENG 6806, Humanities in the Age of AI. Mad
 | [SmolLM2 135M Instruct](https://huggingface.co/onnx-community/SmolLM2-135M-Instruct-ONNX/tree/main/onnx) | ~136 MB | Start here |
 | [SmolLM2 360M Instruct](https://huggingface.co/onnx-community/SmolLM2-360M-Instruct-ONNX/tree/main/onnx) | ~363 MB | Compare style, speed, and accuracy |
 
-The tokenizer and runtime add to the first transfer. Transformers.js 3.8.1 downloads public assets and runs generation in a web worker. Small prefers WebGPU and falls back to WebAssembly (WASM) on the CPU. Larger uses WASM for compatibility after a report of scrambled replies. Browser storage can be cleared or evicted. A private window typically starts with a fresh cache. Prompts and replies stay in the current page and are sent only to its local worker. The model sees the two most recent exchanges and the current question. It has no live lookup.
+The tokenizer and runtime add to the first transfer. Transformers.js 3.8.1 downloads public assets and runs generation in a web worker. Both models use WebAssembly (WASM) on the CPU for compatibility after reports of scrambled replies. Browser storage can be cleared or evicted. A private window typically starts with a fresh cache. Prompts and replies stay in the current page and are sent only to its local worker. The model sees the two most recent exchanges and the current question. It has no live lookup.
 
 ## Edit and test
 

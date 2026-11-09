@@ -21,11 +21,11 @@ const replyTime = byId("reply-time");
 const announcement = byId("announcement");
 const portrait = byId("portrait");
 const caption = byId("portrait-caption");
+const readyStatus = "Ready on WASM · CPU.";
 
 let worker;
 let character;
 let activeModel;
-let activeDevice;
 let state = "idle";
 let history = [];
 let pending;
@@ -105,10 +105,6 @@ function resetConversation() {
   refreshControls();
 }
 
-function engineName(device) {
-  return device === "webgpu" ? "WebGPU · graphics processor" : "WASM · CPU";
-}
-
 function scrollToLatest() {
   transcript.scrollTop = transcript.scrollHeight;
 }
@@ -182,21 +178,11 @@ function receive({ data }) {
       setProgress(data.percent);
       if (data.percent === 100 && state === "loading") setStatus("Preparing the model…");
       break;
-    case "fallback":
-      setStatus("Switching to WASM on your CPU…");
-      if (pending) {
-        pending.firstWord = null;
-        pending.body.textContent = "Madison is thinking…";
-        pending.turn.classList.add("pending");
-        setPortrait("thinking", "Let me think…");
-      }
-      break;
     case "ready":
       activeModel = model.value;
-      activeDevice = data.device;
       state = "ready";
       progressWrap.hidden = true;
-      setStatus(`Ready on ${engineName(activeDevice)}.`);
+      setStatus(readyStatus);
       refreshControls();
       break;
     case "chunk":
@@ -224,9 +210,8 @@ function receive({ data }) {
       history = history.slice(-4);
       pending = null;
       state = "ready";
-      activeDevice = data.device;
       progressWrap.hidden = true;
-      setStatus(`Ready on ${engineName(activeDevice)}.`);
+      setStatus(readyStatus);
       replyTime.textContent = `First words in ${first.toFixed(1)} s · Full reply in ${elapsed.toFixed(1)} s`;
       replyTime.hidden = false;
       scrollToLatest();
@@ -260,7 +245,7 @@ load.addEventListener("click", async () => {
       if (!response.ok) throw new Error(`Character file returned ${response.status}`);
       character = (await response.text()).trim();
     }
-    worker = new Worker(new URL("./model-worker.js?v=2", import.meta.url), { type: "module" });
+    worker = new Worker(new URL("./model-worker.js?v=6", import.meta.url), { type: "module" });
     worker.onmessage = receive;
     worker.onerror = (event) => {
       console.error(event.message);
@@ -274,7 +259,7 @@ load.addEventListener("click", async () => {
 });
 
 model.addEventListener("change", () => {
-  setStatus(activeModel === model.value ? `Ready on ${engineName(activeDevice)}.` : "");
+  setStatus(activeModel === model.value ? readyStatus : "");
   refreshControls();
 });
 

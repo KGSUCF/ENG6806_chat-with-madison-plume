@@ -8,22 +8,24 @@ const models = {
   large: {
     id: "onnx-community/SmolLM2-360M-Instruct-ONNX",
     revision: "fe7c7db4c8921c9e3fa1c65cfd296fb3b1b1a8f9",
-    cpuOnly: true,
   },
 };
 
 let runtime;
 let generator;
-let device;
-let selectedModel;
 
 const report = (type, details = {}) => self.postMessage({ type, ...details });
 
-async function loadOn(target) {
-  device = target;
-  const { id, revision } = selectedModel;
+async function load(model) {
+  const { id, revision } = models[model];
+  runtime = await import(library);
+  runtime.env.allowLocalModels = false;
+  runtime.env.useBrowserCache = true;
+  // Single-threaded WASM works on static hosts without cross-origin isolation.
+  runtime.env.backends.onnx.wasm.numThreads = 1;
+  // Both q8 models use the CPU after scrambled replies were reported.
   generator = await runtime.pipeline("text-generation", id, {
-    device,
+    device: "wasm",
     revision,
     dtype: "q8",
     progress_callback(event) {
@@ -35,32 +37,7 @@ async function loadOn(target) {
       }
     },
   });
-}
-
-async function load(model) {
-  selectedModel = models[model];
-  runtime = await import(library);
-  runtime.env.allowLocalModels = false;
-  runtime.env.useBrowserCache = true;
-  // Single-threaded WASM works on static hosts without cross-origin isolation.
-  runtime.env.backends.onnx.wasm.numThreads = 1;
-  let adapter;
-  try {
-    // Use the verified CPU path for the 360M build after a scrambled-reply report.
-    adapter = selectedModel.cpuOnly ? null : await navigator.gpu?.requestAdapter();
-  } catch (error) {
-    console.info("WebGPU adapter unavailable", error);
-  }
-  if (adapter) {
-    try {
-      await loadOn("webgpu");
-    } catch (error) {
-      console.info("WebGPU initialization failed; trying WASM", error);
-      report("fallback");
-    }
-  }
-  if (!generator) await loadOn("wasm");
-  report("ready", { device });
+  report("ready");
 }
 
 async function reply(messages) {
@@ -81,7 +58,7 @@ async function reply(messages) {
   const generated = output.generated_text;
   const text = typeof generated === "string" ? generated : generated.at(-1)?.content;
   if (!text?.trim()) throw new Error("The model returned no text.");
-  report("reply", { text: text.trim(), device });
+  report("reply", { text: text.trim() });
 }
 
 self.onmessage = async ({ data }) => {
@@ -89,18 +66,7 @@ self.onmessage = async ({ data }) => {
     if (data.type === "load") {
       await load(data.model);
     } else if (data.type === "ask") {
-      try {
-        await reply(data.messages);
-      } catch (error) {
-        if (device !== "webgpu") throw error;
-        console.info("WebGPU generation failed; trying WASM", error);
-        report("fallback");
-        const previous = generator;
-        generator = null;
-        await previous.dispose().catch(console.info);
-        await loadOn("wasm");
-        await reply(data.messages);
-      }
+      await reply(data.messages);
     }
   } catch (error) {
     console.error(error);
