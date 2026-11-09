@@ -48,7 +48,7 @@
           </div>
           <p class="setup-note" id="model-note">Start with Small. Your browser downloads the model and saves it for later when it can. Your messages stay on this device.</p>
           <div id="progress-wrap" class="progress-wrap" hidden>
-            <progress id="progress" aria-label="Model download progress"></progress>
+            <progress id="progress" max="100" aria-label="Model download progress"></progress>
             <span id="progress-text" aria-hidden="true"></span>
           </div>
           <p class="status" id="model-status" role="status" hidden></p>
@@ -73,7 +73,7 @@
         <form id="composer" class="composer">
           <label class="visually-hidden" for="question">Your question for Madison</label>
           <textarea id="question" rows="2" maxlength="500" placeholder="Write a question for Madison…" required></textarea>
-          <button id="send" class="primary send" type="submit" disabled>Send <span aria-hidden="true">↗</span></button>
+          <button id="send" class="primary send" type="submit" disabled>Send</button>
         </form>
         <div class="chat-foot">
           <p>A small AI model plays Madison. It can get things wrong and has no live news or web lookup.</p>
