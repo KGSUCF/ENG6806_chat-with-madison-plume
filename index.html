@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A local AI chat with graphic novelist Madison Plume about civics, money, and tricky headlines.">
+  <meta name="theme-color" content="#f7eedb">
+  <title>Chat with Madison Plume</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="imprint" href="./" aria-label="Madison Plume, home"><span class="monogram" aria-hidden="true">MP</span> Madison Plume <span class="imprint-note">/ INTERACTIVE COMIC</span></a>
+      <span class="local-stamp"><span aria-hidden="true"></span> ON-DEVICE AI</span>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="dash" aria-hidden="true"></span> A GRAPHIC NOVELIST AT YOUR SERVICE</p>
+        <h1 id="page-title">Chat with<br> Madison Plume<span>.</span></h1>
+        <p class="intro-copy">Madison writes and illustrates graphic novels that turn complex topics into fun, visual adventures. Ask her about American civics, everyday economics, or how to spot a tricky headline.</p>
+        <figure class="portrait" id="portrait" data-pose="idle">
+          <div class="portrait-art">
+            <img src="./assets/madison-plume.webp" width="860" height="860" alt="Madison Plume, a silver-haired cartoon author in a black hat with a red feather.">
+          </div>
+          <span class="portrait-mark" aria-hidden="true">✦</span>
+          <figcaption id="portrait-caption" aria-hidden="true">Pull up a chair.</figcaption>
+        </figure>
+      </section>
+
+      <section class="chat" aria-labelledby="chat-title">
+        <header class="chat-header">
+          <div><p class="eyebrow">THE CONVERSATION</p><h2 id="chat-title">Ask Madison</h2></div>
+          <button type="button" id="clear" class="quiet" disabled>New chat</button>
+        </header>
+
+        <div class="setup">
+          <div class="setup-row">
+            <div class="model-field">
+              <label for="model">Choose a model</label>
+              <select id="model">
+                <option value="small">Small · 135M · ~136 MB</option>
+                <option value="large">Larger · 360M · ~363 MB</option>
+              </select>
+            </div>
+            <button type="button" id="load" class="primary">Download model</button>
+          </div>
+          <p class="setup-note" id="model-note">Start with Small. Your browser downloads the model and saves it for later when it can. Your messages stay on this device.</p>
+          <div id="progress-wrap" class="progress-wrap" hidden>
+            <progress id="progress" aria-label="Model download progress"></progress>
+            <span id="progress-text" aria-hidden="true"></span>
+          </div>
+          <p class="status" id="model-status" role="status" hidden></p>
+        </div>
+
+        <div id="transcript" class="transcript" role="region" aria-label="Conversation" tabindex="0">
+          <article class="turn">
+            <h3>Madison <span>· greeting</span></h3>
+            <p>I’m Madison. Bring me a question about votes, wallets, or suspicious headlines. We’ll take it one panel at a time.</p>
+          </article>
+        </div>
+        <div class="visually-hidden" id="announcement" role="status"></div>
+        <div class="starters">
+          <p>Try a question</p>
+          <div class="starter-buttons">
+            <button type="button" data-question="Why do we split the U.S. government into three branches?" aria-label="Civics: Why do we split the U.S. government into three branches?"><span aria-hidden="true">✦</span> Three branches?</button>
+            <button type="button" data-question="Why does the same sandwich cost more than it used to?" aria-label="Economics: Why does the same sandwich cost more than it used to?"><span aria-hidden="true">$</span> Why pricier sandwiches?</button>
+            <button type="button" data-question="A headline says crime is up 300%. What should I ask before I share it?" aria-label="Media literacy: A headline says crime is up 300%. What should I ask before I share it?"><span aria-hidden="true">?</span> Crime up 300%?</button>
+          </div>
+        </div>
+
+        <form id="composer" class="composer">
+          <label class="visually-hidden" for="question">Your question for Madison</label>
+          <textarea id="question" rows="2" maxlength="500" placeholder="Write a question for Madison…" required></textarea>
+          <button id="send" class="primary send" type="submit" disabled>Send <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="chat-foot">
+          <p>A small AI model plays Madison. It can get things wrong and has no live news or web lookup.</p>
+          <p id="reply-time" hidden></p>
+        </div>
+      </section>
+    </main>
+    <footer class="page-footer"><span>FROM THE MADISON PLUME BOOKS</span><span>ENG 6806 · HUMANITIES IN THE AGE OF AI</span></footer>
+    <noscript><p class="noscript">Turn on JavaScript to load the model and chat.</p></noscript>
+  </div>
+</body>
+</html>
