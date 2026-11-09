@@ -79,6 +79,11 @@ select { min-width: 0; width: 100%; background: var(--panel); border: 1px solid 
 .primary { min-height: 40px; padding: 8px 13px; border: 2px solid var(--ink); border-radius: 3px; font-weight: 750; font-size: .87rem; background: var(--red); color: #fffdf7; }
 .primary:hover:enabled { background: #842320; }
 .setup-note, .status, .chat-foot p { margin: 7px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.42; }
+.answer-options { padding: 10px 22px; border-block: 1px solid var(--line); }
+.answer-options-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.answer-options label, .answer-options a { font-size: .78rem; font-weight: 750; }
+.answer-options select { width: auto; max-width: 100%; }
+.answer-options a { color: var(--red); }
 .status { color: var(--ink); font-weight: 650; }
 .status[data-error="true"] { color: #8c221d; }
 .progress-wrap { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
@@ -100,7 +105,8 @@ progress { width: 100%; height: 12px; accent-color: var(--red); }
 .civics-reference { margin: 0 14px 10px; padding: 9px 12px; border: 1px solid var(--line); border-left: 3px solid var(--red); background: #f0e4cd; font-size: .82rem; line-height: 1.45; }
 .civics-reference h3, .civics-reference p { margin: 0 0 4px; }
 .civics-reference h3 { font-size: .82rem; }
-.civics-reference a { color: var(--red); font-weight: 700; }
+.reference-sources { display: grid; gap: 3px; margin-top: 7px; }
+.reference-sources a { color: var(--red); font-size: .78rem; font-weight: 700; }
 .starters { border-top: 1px solid var(--line); padding-block: 11px 10px; }
 .starters > p { margin: 0 0 6px; }
 .starter-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -120,7 +126,7 @@ textarea { display: block; flex: 1 1 auto; width: 0; min-height: 48px; padding: 
   .page { width: calc(100% - 42px); }
   main { gap: 26px; }
   h1 { font-size: clamp(2.7rem, 6.2vw, 4rem); }
-  .chat-header, .setup, .starters, .composer, .chat-foot, .transcript { padding-inline: 14px; }
+  .chat-header, .answer-options, .setup, .starters, .composer, .chat-foot, .transcript { padding-inline: 14px; }
 }
 @media (max-width: 680px) {
   .page { width: calc(100% - 32px); }

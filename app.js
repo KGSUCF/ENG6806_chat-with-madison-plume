@@ -1,4 +1,8 @@
+import { findNote, parseNotebook } from "./reference-notebook.js?v=4";
+
 const byId = (id) => document.getElementById(id);
+const answerMode = byId("answer-mode");
+const modelSetup = byId("model-setup");
 const model = byId("model");
 const load = byId("load");
 const send = byId("send");
@@ -7,8 +11,7 @@ const composer = byId("composer");
 const question = byId("question");
 const transcript = byId("transcript");
 const greeting = transcript.firstElementChild;
-const electoralReference = byId("electoral-reference");
-const electoralFacts = byId("electoral-facts").textContent.trim();
+const comparisonReference = byId("comparison-reference");
 const starterButtons = [...document.querySelectorAll("[data-question]")];
 const status = byId("model-status");
 const progress = byId("progress");
@@ -26,6 +29,19 @@ let activeDevice;
 let state = "idle";
 let history = [];
 let pending;
+let notebook;
+let lastQuestion = "";
+
+const usesAI = () => answerMode.value === "ai";
+
+async function loadNotebook() {
+  if (!notebook) {
+    const response = await fetch(new URL("./reference-notebook.md", import.meta.url), { cache: "no-cache" });
+    if (!response.ok) throw new Error(`Notebook file returned ${response.status}`);
+    notebook = parseNotebook(await response.text());
+  }
+  return notebook;
+}
 
 function setPortrait(pose, line) {
   portrait.dataset.pose = pose;
@@ -52,10 +68,11 @@ function setProgress(percent) {
 function refreshControls() {
   const busy = state === "loading" || state === "asking";
   const ready = activeModel === model.value;
+  answerMode.disabled = busy;
   model.disabled = busy;
   load.disabled = busy || ready;
   load.textContent = state === "loading" ? "Loading…" : ready ? "Model ready" : "Download model";
-  send.disabled = busy || !ready || !question.value.trim();
+  send.disabled = busy || (usesAI() && !ready) || !question.value.trim();
   clear.disabled = busy || transcript.children.length === 1;
   question.readOnly = state === "asking";
   for (const button of starterButtons) button.disabled = state === "asking";
@@ -63,8 +80,9 @@ function refreshControls() {
 
 function resetConversation() {
   history = [];
+  lastQuestion = "";
   transcript.replaceChildren(greeting);
-  electoralReference.hidden = true;
+  comparisonReference.hidden = true;
   replyTime.hidden = true;
   announcement.textContent = "";
   setPortrait("idle", "Pull up a chair.");
@@ -90,6 +108,33 @@ function addTurn(label, text, className = "") {
   transcript.append(turn);
   scrollToLatest();
   return { turn, body };
+}
+
+function showSources(container, sources) {
+  container.replaceChildren(...sources.map(({ label, url }) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.textContent = label;
+    return link;
+  }));
+}
+
+function showReferenceReply(note, available) {
+  const text = note?.answer ?? (available
+    ? "I don’t have a checked note for that question. Try one topic below or browse the notebook."
+    : "The notebook couldn’t load. Try again or open it from the link above.");
+  const { turn } = addTurn(note ? `Notebook · ${note.title}` : "Reference notebook", text);
+  if (note) {
+    const sources = document.createElement("div");
+    sources.className = "reference-sources";
+    showSources(sources, note.sources);
+    turn.append(sources);
+  }
+  announcement.textContent = text;
+  setPortrait("replying", "From the notebook.");
+  state = activeModel ? "ready" : "idle";
+  scrollToLatest();
+  refreshControls();
 }
 
 function handleError(phase, recoverable) {
@@ -179,11 +224,15 @@ function receive({ data }) {
 }
 
 load.addEventListener("click", async () => {
-  if (state === "loading" || state === "asking") return;
+  if (!usesAI() || state === "loading" || state === "asking") return;
   const switching = Boolean(activeModel && activeModel !== model.value);
   state = "loading";
   activeModel = null;
-  if (switching) resetConversation();
+  if (switching) {
+    const draft = question.value || lastQuestion;
+    resetConversation();
+    question.value = draft;
+  }
   worker?.terminate();
   worker = null;
   refreshControls();
@@ -213,6 +262,25 @@ model.addEventListener("change", () => {
   refreshControls();
 });
 
+function syncMode() {
+  const ai = usesAI();
+  modelSetup.hidden = !ai;
+  byId("mode-note").textContent = ai
+    ? "Try the same question with both models. A notebook note appears below when the topic is covered."
+    : "Read checked answers for covered topics. AI model comparison lets you try the two local models.";
+  byId("answer-foot").textContent = ai
+    ? "AI replies can get facts wrong. Madison has no live news or web lookup."
+    : "Reference answers come from the notebook. Your questions stay on this device.";
+  refreshControls();
+}
+
+answerMode.addEventListener("change", () => {
+  const draft = question.value || lastQuestion;
+  resetConversation();
+  question.value = draft;
+  syncMode();
+});
+
 for (const button of starterButtons) {
   button.addEventListener("click", () => {
     question.value = button.dataset.question;
@@ -223,21 +291,44 @@ for (const button of starterButtons) {
 
 question.addEventListener("input", refreshControls);
 clear.addEventListener("click", resetConversation);
-composer.addEventListener("submit", (event) => {
+composer.addEventListener("submit", async (event) => {
   event.preventDefault();
   const text = question.value.trim();
-  if (!text || state !== "ready" || activeModel !== model.value) return;
-  const aboutElectors = /\belectoral\s+(?:college|votes?)\b|\bpresidential\s+electors?\b/i.test(text);
-  electoralReference.hidden = !aboutElectors;
-  const prompt = aboutElectors
-    ? `Civics facts: ${electoralFacts}\n\nQuestion: ${text}\nExplain in plain English using the facts above.`
+  const ai = usesAI();
+  if (!text || state === "asking" || state === "loading" || (ai && activeModel !== model.value)) return;
+  lastQuestion = text;
+  question.value = "";
+  replyTime.hidden = true;
+  comparisonReference.hidden = true;
+  addTurn("You", text, "user");
+  state = "asking";
+  refreshControls();
+  let note;
+  let available = false;
+  try {
+    note = findNote(await loadNotebook(), text);
+    available = true;
+  } catch (error) {
+    console.error(error);
+  }
+  if (!ai) {
+    showReferenceReply(note, available);
+    return;
+  }
+  if (note) {
+    byId("comparison-title").textContent = `Notebook · ${note.title}`;
+    byId("comparison-facts").textContent = note.answer;
+    showSources(byId("comparison-sources"), note.sources);
+    comparisonReference.hidden = false;
+  }
+  const prompt = note
+    ? `Reference facts: ${note.answer}\n\nQuestion: ${text}\nExplain in plain English using the facts above.`
     : text;
   const messages = [
     { role: "system", content: character },
     ...history.map(({ role, content }) => ({ role, content: content.slice(0, 400) })),
     { role: "user", content: prompt },
   ];
-  addTurn("You", text, "user");
   pending = {
     ...addTurn("Madison · AI reply", "Madison is thinking…", "pending"),
     question: text,
@@ -245,10 +336,8 @@ composer.addEventListener("submit", (event) => {
     firstWord: null,
   };
   announcement.textContent = "Madison is thinking.";
-  question.value = "";
-  state = "asking";
-  replyTime.hidden = true;
   setPortrait("thinking", "Let me think…");
-  refreshControls();
   worker.postMessage({ type: "ask", messages });
 });
+
+syncMode();

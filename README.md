@@ -4,9 +4,9 @@ A single-page local AI experiment for ENG 6806, Humanities in the Age of AI. Mad
 
 ## Use the app
 
-1. Open the hosted page in a current version of Chrome or Edge.
-2. Select **Small** and click **Download model**. A progress bar tracks the model weights. Once the model is ready, pick a starter question or type your own.
-3. Pick **Larger** to try the same prompt with the comparison model. Downloading a different model starts a fresh chat. **New chat** clears the conversation without unloading the current model.
+1. Open the hosted page in a current version of Chrome or Edge. In **Reference answers**, pick a starter question or type your own. The app shows the closest covered note and its sources, or says when there is no matching note. This mode runs without a model download.
+2. Select **AI model comparison**, then **Small**, and click **Download model**. A progress bar tracks the model weights. Ask a question once the model is ready.
+3. Pick **Larger** to try the same prompt with the comparison model. Switching modes or downloading a different model starts a fresh chat and keeps your question in the text box. **New chat** clears the conversation without unloading the current model.
 
 | Model | 8-bit ONNX weights | Use |
 | --- | ---: | --- |
@@ -23,12 +23,13 @@ Suggested prompts:
 
 - Why do we split the U.S. government into three branches?
 - How does the Electoral College work?
+- Why does the Fed need to be independent?
 - Why does the same sandwich cost more than it used to?
 - A headline says crime is up 300%. What should I ask before I share it?
 - A headline says sandwich prices doubled, and a politician promises to fix them by Friday. What would you check first?
 - What is the weather in Philadelphia right now?
 
-Questions that mention the Electoral College, electoral votes, or presidential electors show a separate reference based on the [U.S. National Archives](https://www.archives.gov/electoral-college/about). Both models receive the same reference text when answering those questions, and their generated replies remain labeled in the transcript.
+Edit the explanations and source links in [reference-notebook.md](reference-notebook.md). Keep each entry’s topic ID, one explanation paragraph, and bulleted HTTPS source links. To add a new topic, add a matching rule in [reference-notebook.js](reference-notebook.js). In AI model comparison, both models receive the same note for a covered topic. The note appears separately so readers can check it against the generated reply.
 
 ## GitHub Pages
 
