@@ -6,8 +6,8 @@
   <meta name="description" content="A local AI chat with graphic novelist Madison Plume about civics, money, and tricky headlines.">
   <meta name="theme-color" content="#f7eedb">
   <title>Chat with Madison Plume</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js?v=2"></script>
+  <link rel="stylesheet" href="./style.css?v=3">
+  <script type="module" src="./app.js?v=3"></script>
 </head>
 <body>
   <div class="page">
@@ -61,12 +61,18 @@
           </article>
         </div>
         <div class="visually-hidden" id="announcement" role="status"></div>
+        <aside class="civics-reference" id="electoral-reference" aria-labelledby="electoral-title" hidden>
+          <h3 id="electoral-title">Civics reference · Electoral College</h3>
+          <p id="electoral-facts">Your vote for president helps choose electors. Every state gets one elector for each seat it has in Congress, and Washington, D.C., gets three. In 48 states and D.C., whoever gets the most votes there wins all their electors. Maine and Nebraska give two electors to the statewide winner and one to the winner in each congressional district. The electors then vote for president and vice president. A candidate needs a majority to win the presidency. With all 538 electoral votes, that’s 270.</p>
+          <a href="https://www.archives.gov/electoral-college/about">Source: U.S. National Archives</a>
+        </aside>
         <div class="starters">
           <p>Try a question</p>
           <div class="starter-buttons">
             <button type="button" data-question="Why do we split the U.S. government into three branches?" aria-label="Civics: Why do we split the U.S. government into three branches?"><span aria-hidden="true">✦</span> Three branches?</button>
             <button type="button" data-question="Why does the same sandwich cost more than it used to?" aria-label="Economics: Why does the same sandwich cost more than it used to?"><span aria-hidden="true">$</span> Why pricier sandwiches?</button>
             <button type="button" data-question="A headline says crime is up 300%. What should I ask before I share it?" aria-label="Media literacy: A headline says crime is up 300%. What should I ask before I share it?"><span aria-hidden="true">?</span> Crime up 300%?</button>
+            <button type="button" data-question="How does the Electoral College work?" aria-label="Civics: How does the Electoral College work?"><span aria-hidden="true">✦</span> Electoral College?</button>
           </div>
         </div>
 

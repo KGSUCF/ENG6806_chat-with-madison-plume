@@ -7,6 +7,8 @@ const composer = byId("composer");
 const question = byId("question");
 const transcript = byId("transcript");
 const greeting = transcript.firstElementChild;
+const electoralReference = byId("electoral-reference");
+const electoralFacts = byId("electoral-facts").textContent.trim();
 const starterButtons = [...document.querySelectorAll("[data-question]")];
 const status = byId("model-status");
 const progress = byId("progress");
@@ -62,6 +64,7 @@ function refreshControls() {
 function resetConversation() {
   history = [];
   transcript.replaceChildren(greeting);
+  electoralReference.hidden = true;
   replyTime.hidden = true;
   announcement.textContent = "";
   setPortrait("idle", "Pull up a chair.");
@@ -224,14 +227,19 @@ composer.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = question.value.trim();
   if (!text || state !== "ready" || activeModel !== model.value) return;
+  const aboutElectors = /\belectoral\s+(?:college|votes?)\b|\bpresidential\s+electors?\b/i.test(text);
+  electoralReference.hidden = !aboutElectors;
+  const prompt = aboutElectors
+    ? `Civics facts: ${electoralFacts}\n\nQuestion: ${text}\nExplain in plain English using the facts above.`
+    : text;
   const messages = [
     { role: "system", content: character },
     ...history.map(({ role, content }) => ({ role, content: content.slice(0, 400) })),
-    { role: "user", content: text },
+    { role: "user", content: prompt },
   ];
   addTurn("You", text, "user");
   pending = {
-    ...addTurn("Madison", "Madison is thinking…", "pending"),
+    ...addTurn("Madison · AI reply", "Madison is thinking…", "pending"),
     question: text,
     startedAt: performance.now(),
     firstWord: null,

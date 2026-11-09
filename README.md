@@ -22,10 +22,13 @@ Use GitHub’s **Edit this file** button on [character.md](character.md) to chan
 Suggested prompts:
 
 - Why do we split the U.S. government into three branches?
+- How does the Electoral College work?
 - Why does the same sandwich cost more than it used to?
 - A headline says crime is up 300%. What should I ask before I share it?
 - A headline says sandwich prices doubled, and a politician promises to fix them by Friday. What would you check first?
 - What is the weather in Philadelphia right now?
+
+Questions that mention the Electoral College, electoral votes, or presidential electors show a separate reference based on the [U.S. National Archives](https://www.archives.gov/electoral-college/about). Both models receive the same reference text when answering those questions, and their generated replies remain labeled in the transcript.
 
 ## GitHub Pages
 
