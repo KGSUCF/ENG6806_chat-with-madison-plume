@@ -4,13 +4,13 @@ A browser-based chat for ENG 6806, Humanities in the Age of AI. Madison Plume is
 
 ## Use the app
 
-Pick a starter question or type your own. For a covered topic, Madison’s reply is the exact explanation from the [reference notebook](reference-notebook.md), with its source links in the same message. She says when she has no matching entry. Questions stay in the browser.
+Pick a question to see Madison’s answer immediately. Each choice points to a specific entry in the [reference notebook](reference-notebook.md). Her reply uses the exact explanation, with its source links in the same message. Questions stay in the browser.
 
-**Try a question** shows one prompt each for U.S. government (◆), the U.S. economy ($), and media literacy (?). All three rotate after every question you send, including questions you type yourself.
+**Pick a question** shows one prompt each for U.S. government (◆), the U.S. economy ($), and media literacy (?). All three rotate after each answer.
 
 ## Edit the notebook
 
-Edit the explanations and source links in [reference-notebook.md](reference-notebook.md). Keep each entry’s topic ID, one explanation paragraph, and bulleted HTTPS source links. To add a new topic, add a matching rule in [reference-notebook.js](reference-notebook.js).
+Edit the explanations and source links in [reference-notebook.md](reference-notebook.md). Keep each entry’s topic ID, one explanation paragraph, and bulleted HTTPS source links. To add a new topic, add its ID, button label, and full question to the appropriate category in [reference-notebook.js](reference-notebook.js).
 
 The [earlier local-model comparison](https://github.com/KGSUCF/ENG6806_chat-with-madison-plume/tree/0f9a0c4d1b36c82d3ac169107b58bbd170a9c732) is available in the project history.
 

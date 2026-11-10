@@ -1,53 +1,36 @@
-import { findNote, nextSuggestions, parseNotebook } from "./reference-notebook.js?v=8";
+import { nextSuggestions, parseNotebook } from "./reference-notebook.js?v=9";
 
 const byId = (id) => document.getElementById(id);
-const send = byId("send");
 const clear = byId("clear");
-const composer = byId("composer");
-const question = byId("question");
 const transcript = byId("transcript");
 const greeting = transcript.firstElementChild;
 const starterButtons = byId("starter-buttons");
+const questionStatus = byId("question-status");
 const announcement = byId("announcement");
 const portrait = byId("portrait");
 const caption = byId("portrait-caption");
 
-let answering = false;
 let notebook;
 let suggestions = [];
-
-async function loadNotebook() {
-  if (!notebook) {
-    const response = await fetch(new URL("./reference-notebook.md", import.meta.url), { cache: "no-cache" });
-    if (!response.ok) throw new Error(`Notebook file returned ${response.status}`);
-    notebook = parseNotebook(await response.text());
-  }
-  return notebook;
-}
 
 function setPortrait(pose, line) {
   portrait.dataset.pose = pose;
   caption.textContent = line;
 }
 
-function refreshControls() {
-  send.disabled = answering || !question.value.trim();
-  clear.disabled = answering || transcript.children.length === 1;
-  question.readOnly = answering;
-  for (const button of starterButtons.children) button.disabled = answering;
-}
-
-function rotateSuggestions(question) {
-  suggestions = nextSuggestions(suggestions, question);
-  starterButtons.replaceChildren(...suggestions.map(({ label, prompt, category, symbol }) => {
+function rotateSuggestions() {
+  suggestions = nextSuggestions(suggestions, notebook);
+  starterButtons.replaceChildren(...suggestions.map(({ id, label, prompt, category, symbol }) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.dataset.question = prompt;
-    button.setAttribute("aria-label", `${category}. ${prompt}`);
+    button.dataset.noteId = id;
+    button.setAttribute("aria-label", `${category}. ${label}`);
+    button.title = prompt;
     const icon = document.createElement("span");
+    icon.className = "question-symbol";
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = symbol;
-    button.append(icon, ` ${label}`);
+    button.append(icon, label);
     return button;
   }));
 }
@@ -76,46 +59,44 @@ function addTurn(label, text, { user = false, sources = [] } = {}) {
 }
 
 starterButtons.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-question]");
+  const button = event.target.closest("button[data-note-id]");
   if (!button) return;
-  question.value = button.dataset.question;
-  refreshControls();
-  question.focus();
+  const index = suggestions.findIndex(({ id }) => id === button.dataset.noteId);
+  if (index < 0) return;
+  const { id, prompt } = suggestions[index];
+  const { answer, sources } = notebook.get(id);
+  const restoreFocus = document.activeElement === button;
+  addTurn("You", prompt, { user: true });
+  addTurn("Madison", answer, { sources });
+  announcement.textContent = `Madison says: ${answer}`;
+  setPortrait("replying", "From the notebook.");
+  rotateSuggestions();
+  if (restoreFocus) starterButtons.children[index].focus({ preventScroll: true });
+  clear.disabled = false;
 });
 
-question.addEventListener("input", refreshControls);
 clear.addEventListener("click", () => {
   transcript.replaceChildren(greeting);
   announcement.textContent = "";
   setPortrait("idle", "Pull up a chair.");
-  refreshControls();
+  starterButtons.firstElementChild?.focus({ preventScroll: true });
+  clear.disabled = true;
 });
 
-composer.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const text = question.value.trim();
-  if (!text || answering) return;
-  answering = true;
-  question.value = "";
-  addTurn("You", text, { user: true });
-  rotateSuggestions(text);
-  refreshControls();
-  setPortrait("thinking", "Let me check…");
-  let note;
-  let answer;
+async function openNotebook() {
+  setPortrait("thinking", "Opening my notebook…");
   try {
-    note = findNote(await loadNotebook(), text);
-    answer = note?.answer ?? "I don’t have a checked answer for that question. Try one topic below or browse the notebook.";
+    const response = await fetch(new URL("./reference-notebook.md", import.meta.url), { cache: "no-cache" });
+    if (!response.ok) throw new Error(`Notebook file returned ${response.status}`);
+    notebook = parseNotebook(await response.text());
+    rotateSuggestions();
+    questionStatus.hidden = true;
+    setPortrait("idle", "Pick a question!");
   } catch (error) {
     console.error(error);
-    answer = "I couldn’t open the notebook. Try again or open it from the link above.";
+    questionStatus.textContent = "I couldn’t open the notebook. Reload the page or use the notebook link above.";
+    setPortrait("idle", "Try again in a moment.");
   }
-  addTurn("Madison", answer, { sources: note?.sources });
-  announcement.textContent = `Madison says: ${answer}`;
-  setPortrait("replying", note ? "From the notebook." : "Try another question.");
-  answering = false;
-  refreshControls();
-});
+}
 
-rotateSuggestions("");
-refreshControls();
+openNotebook();

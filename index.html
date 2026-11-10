@@ -6,8 +6,8 @@
   <meta name="description" content="Ask graphic novelist Madison Plume about civics, money, and tricky headlines. Her answers come from a checked reference notebook.">
   <meta name="theme-color" content="#f7eedb">
   <title>Chat with Madison Plume</title>
-  <link rel="stylesheet" href="./style.css?v=8">
-  <script type="module" src="./app.js?v=8"></script>
+  <link rel="stylesheet" href="./style.css?v=9">
+  <script type="module" src="./app.js?v=9"></script>
 </head>
 <body>
   <div class="page">
@@ -43,13 +43,14 @@
         <div id="transcript" class="transcript" role="region" aria-label="Conversation" tabindex="0">
           <article class="turn">
             <h3>Madison <span>· greeting</span></h3>
-            <p>I’m Madison. Bring me a question about votes, wallets, or suspicious headlines. We’ll take it one panel at a time.</p>
+            <p>I’m Madison. Pick a question about votes, wallets, or suspicious headlines. We’ll take it one panel at a time.</p>
           </article>
         </div>
         <div class="visually-hidden" id="announcement" role="status"></div>
         <div class="starters">
-          <p>Try a question</p>
-          <div class="starter-buttons" id="starter-buttons"></div>
+          <h3 id="question-heading">Pick a question</h3>
+          <p id="question-status" role="status">Opening Madison’s notebook…</p>
+          <div class="starter-buttons" id="starter-buttons" role="group" aria-labelledby="question-heading"></div>
           <ul class="topic-legend" aria-label="Question symbols">
             <li><span aria-hidden="true">◆</span> U.S. government</li>
             <li><span aria-hidden="true">$</span> U.S. economy</li>
@@ -57,11 +58,6 @@
           </ul>
         </div>
 
-        <form id="composer" class="composer">
-          <label class="visually-hidden" for="question">Your question for Madison</label>
-          <textarea id="question" rows="2" maxlength="500" placeholder="Write a question for Madison…" required></textarea>
-          <button id="send" class="primary send" type="submit" disabled>Send</button>
-        </form>
         <div class="chat-foot">
           <p>Your questions stay in this browser.</p>
         </div>
