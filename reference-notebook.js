@@ -11,7 +11,7 @@ const groups = [
   { category: "U.S. economy", symbol: "$", entries: [
     ["fed-independence", "Why an independent Fed?", "Why does the Fed need to be independent?", /(?=.*\b(?:fed(?:eral reserve)?|central bank)\b)(?=.*\b(?:independen\w*|autonom\w*|politic\w*|election\w*)\b)/i],
     ["inflation", "Why pricier sandwiches?", "Why does the same sandwich cost more than it used to?", /\binflation\b|\bconsumer price index\b|\bbuying power\b|(?=.*\bsandwich\b)(?=.*\b(?:cost|pric\w*|expensive)\b)/i],
-    ["interest-rates", "How do Fed rates affect loans?", "How do the Fed’s interest rates affect what I pay to borrow?", /\binterest rates?\b|\bfederal funds rate\b|\bfed (?:rais\w*|cut\w*|lower\w*) .*\brates?\b/i],
+    ["interest-rates", "How do Fed rates affect loans?", "How do the Fed’s interest rates affect what I pay to borrow?", /\binterest rates?\b|\bfederal funds rate\b|\bfed (?:rates?|rate cuts?)\b|\bfed(?:eral reserve)? (?:rais\w*|cut\w*|lower\w*|hik\w*) (?:\w+ ){0,3}rates?\b|(?=.*\b(?:borrow\w*|loans?)\b)(?=.*\brates?\b)/i],
     ["supply-demand", "How do supply and demand move prices?", "How do supply and demand change prices?", /\bsupply and demand\b|\bdemand and supply\b/i],
     ["opportunity-cost", "What’s an opportunity cost?", "What is an opportunity cost?", /\bopportunity costs?\b/i],
     ["gdp", "What does GDP measure?", "What does GDP measure?", /\bgdp\b|\bgross domestic product\b/i],

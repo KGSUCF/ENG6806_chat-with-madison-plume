@@ -101,9 +101,10 @@ An amendment changes the Constitution. Two-thirds of each house of Congress can 
 ## How Fed interest rates affect borrowing
 <!-- ref: interest-rates -->
 
-The Fed sets a target range for a short-term rate banks use when they lend to one another overnight. A change in that target can affect other rates, including what people and businesses pay to borrow. Higher rates can make it more costly to take out a loan, so some people spend less or wait. That can ease pressure on prices over time. Lenders also consider things like a borrower’s credit and the type of loan.
+When the Fed cuts its key rate, some lenders may charge less interest. Cheaper loans generally encourage people and businesses to borrow or spend more. A Fed rate cut doesn’t postpone your payments. Your loan agreement sets when they’re due. The rate on an existing fixed-rate loan stays the same. Higher rates generally make new borrowing more costly and can lead people to put off purchases.
 
 - [Federal Reserve Board · How monetary policy works](https://www.federalreserve.gov/monetarypolicy/monetary-policy-what-are-its-goals-how-does-it-work.htm)
+- [Consumer Financial Protection Bureau · Loan payment schedules](https://www.consumerfinance.gov/rules-policy/regulations/1026/18/#g)
 
 ## Supply, demand, and prices
 <!-- ref: supply-demand -->

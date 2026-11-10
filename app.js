@@ -1,4 +1,4 @@
-import { findNote, nextSuggestions, parseNotebook } from "./reference-notebook.js?v=5";
+import { findNote, nextSuggestions, parseNotebook } from "./reference-notebook.js?v=7";
 
 const byId = (id) => document.getElementById(id);
 const answerMode = byId("answer-mode");
@@ -199,20 +199,40 @@ function receive({ data }) {
     case "reply": {
       const elapsed = (performance.now() - pending.startedAt) / 1000;
       const first = ((pending.firstWord ?? performance.now()) - pending.startedAt) / 1000;
-      pending.body.textContent = data.text;
+      const message = data.text || "The model didn’t finish a sentence.";
+      pending.body.textContent = message;
       pending.turn.classList.remove("pending");
       setPortrait("replying", "Here’s what I’d say.");
-      announcement.textContent = `Madison says: ${data.text}`;
-      history.push(
-        { role: "user", content: pending.question },
-        { role: "assistant", content: data.text },
-      );
-      history = history.slice(-4);
+      announcement.textContent = `Madison says: ${message}`;
+      if (data.limited) {
+        const notice = document.createElement("p");
+        notice.className = "reply-limit";
+        notice.textContent = "The model reached its reply limit.";
+        pending.turn.append(notice);
+        announcement.textContent += ` ${notice.textContent}`;
+        if (data.unfinished) {
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = "Show unfinished text";
+          const fragment = document.createElement("p");
+          fragment.textContent = data.unfinished;
+          details.append(summary, fragment);
+          pending.turn.append(details);
+        }
+      }
+      if (data.text) {
+        history.push(
+          { role: "user", content: pending.question },
+          { role: "assistant", content: data.text },
+        );
+        history = history.slice(-4);
+      }
       pending = null;
       state = "ready";
       progressWrap.hidden = true;
       setStatus(readyStatus);
-      replyTime.textContent = `First words in ${first.toFixed(1)} s · Full reply in ${elapsed.toFixed(1)} s`;
+      const completion = data.limited ? "Reply limit reached in" : "Full reply in";
+      replyTime.textContent = `First words in ${first.toFixed(1)} s · ${completion} ${elapsed.toFixed(1)} s`;
       replyTime.hidden = false;
       scrollToLatest();
       refreshControls();
@@ -245,7 +265,7 @@ load.addEventListener("click", async () => {
       if (!response.ok) throw new Error(`Character file returned ${response.status}`);
       character = (await response.text()).trim();
     }
-    worker = new Worker(new URL("./model-worker.js?v=6", import.meta.url), { type: "module" });
+    worker = new Worker(new URL("./model-worker.js?v=7", import.meta.url), { type: "module" });
     worker.onmessage = receive;
     worker.onerror = (event) => {
       console.error(event.message);
@@ -323,9 +343,10 @@ composer.addEventListener("submit", async (event) => {
     showSources(byId("comparison-sources"), note.sources);
     comparisonReference.hidden = false;
   }
+  const style = "Lead with the answer. Write two or three short sentences in plain English.";
   const prompt = note
-    ? `Reference facts: ${note.answer}\n\nQuestion: ${text}\nExplain in plain English using the facts above.`
-    : text;
+    ? `Reference facts: ${note.answer}\n\nQuestion: ${text}\nUse only the facts above. If they do not answer the question, say so. ${style}`
+    : `${text}\n\n${style}`;
   const messages = [
     { role: "system", content: character },
     ...history.map(({ role, content }) => ({ role, content: content.slice(0, 400) })),

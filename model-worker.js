@@ -1,4 +1,5 @@
 const library = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js";
+const maxReplyTokens = 144;
 
 const models = {
   small: {
@@ -41,24 +42,41 @@ async function load(model) {
 }
 
 async function reply(messages) {
+  let generatedTokens = 0;
   const streamer = new runtime.TextStreamer(generator.tokenizer, {
     skip_prompt: true,
     skip_special_tokens: true,
     callback_function(text) {
       if (text) report("chunk", { text });
     },
+    token_callback_function(tokens) {
+      generatedTokens += tokens.length;
+    },
   });
   const [output] = await generator(messages, {
-    max_new_tokens: 90,
+    max_new_tokens: maxReplyTokens,
     do_sample: false,
     repetition_penalty: 1.15,
     return_full_text: false,
     streamer,
   });
   const generated = output.generated_text;
-  const text = typeof generated === "string" ? generated : generated.at(-1)?.content;
-  if (!text?.trim()) throw new Error("The model returned no text.");
-  report("reply", { text: text.trim() });
+  const text = (typeof generated === "string" ? generated : generated.at(-1)?.content)?.trim();
+  if (!text) throw new Error("The model returned no text.");
+  const limited = generatedTokens >= maxReplyTokens;
+  let end = text.length;
+  if (limited) {
+    end = 0;
+    const sentences = new Intl.Segmenter("en", { granularity: "sentence" }).segment(text);
+    for (const { segment, index } of sentences) {
+      const sentence = segment.trimEnd();
+      // A list marker such as "2." is not a complete sentence.
+      if (/\p{L}/u.test(sentence) && /[.!?…][\p{Pe}\p{Pf}"'*_]*$/u.test(sentence)) {
+        end = index + sentence.length;
+      }
+    }
+  }
+  report("reply", { text: text.slice(0, end), limited, unfinished: text.slice(end).trimStart() });
 }
 
 self.onmessage = async ({ data }) => {

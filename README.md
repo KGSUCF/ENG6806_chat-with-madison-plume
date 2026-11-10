@@ -21,6 +21,8 @@ The tokenizer and runtime add to the first transfer. Transformers.js 3.8.1 downl
 
 Use GitHub’s **Edit this file** button on [character.md](character.md) to change the persona, subject boundaries, or examples. For a fair comparison, use the same text and starting questions with both models. Record the engine shown below the model selector, since it affects reply time. Note the first download and reply time, whether Madison sounds like herself, and any made-up facts or repetition. Try an off-topic question and a fresh private window.
 
+Both models have a 144-token reply limit. When a reply reaches the limit, the chat labels it and puts any unfinished fragment under **Show unfinished text**. You can still inspect the full model output for the comparison.
+
 Suggested prompts:
 
 - Why do we split the U.S. government into three branches?
