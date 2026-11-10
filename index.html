@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A local AI chat with graphic novelist Madison Plume about civics, money, and tricky headlines.">
+  <meta name="description" content="Ask graphic novelist Madison Plume about civics, money, and tricky headlines. Her answers come from a checked reference notebook.">
   <meta name="theme-color" content="#f7eedb">
   <title>Chat with Madison Plume</title>
-  <link rel="stylesheet" href="./style.css?v=7">
-  <script type="module" src="./app.js?v=7"></script>
+  <link rel="stylesheet" href="./style.css?v=8">
+  <script type="module" src="./app.js?v=8"></script>
 </head>
 <body>
   <div class="page">
     <header class="masthead">
       <a class="imprint" href="./" aria-label="Madison Plume, home"><span class="monogram" aria-hidden="true">MP</span> Madison Plume <span class="imprint-note">/ INTERACTIVE COMIC</span></a>
-      <span class="local-stamp"><span aria-hidden="true"></span> ON-DEVICE AI</span>
+      <span class="local-stamp"><span aria-hidden="true"></span> CHECKED ANSWERS</span>
     </header>
     <main>
       <section class="intro" aria-labelledby="page-title">
@@ -35,35 +35,9 @@
           <button type="button" id="clear" class="quiet" disabled>New chat</button>
         </header>
 
-        <div class="answer-options">
-          <div class="answer-options-row">
-            <label for="answer-mode">Answer mode</label>
-            <select id="answer-mode">
-              <option value="reference" selected>Reference answers</option>
-              <option value="ai">AI model comparison</option>
-            </select>
-            <a href="https://github.com/KGSUCF/ENG6806_chat-with-madison-plume/blob/main/reference-notebook.md">Browse the notebook</a>
-          </div>
-          <p class="setup-note" id="mode-note">Read checked answers for covered topics. AI model comparison lets you try the two local models.</p>
-        </div>
-
-        <div class="setup" id="model-setup" hidden>
-          <div class="setup-row">
-            <div class="model-field">
-              <label for="model">Choose a model</label>
-              <select id="model">
-                <option value="small">Small · 135M · ~136 MB</option>
-                <option value="large">Larger · 360M · ~363 MB</option>
-              </select>
-            </div>
-            <button type="button" id="load" class="primary">Download model</button>
-          </div>
-          <p class="setup-note" id="model-note">Start with Small. Both models run on your CPU for compatibility. Your browser can save the download for later, and your messages stay on this device.</p>
-          <div id="progress-wrap" class="progress-wrap" hidden>
-            <progress id="progress" max="100" aria-label="Model download progress"></progress>
-            <span id="progress-text" aria-hidden="true"></span>
-          </div>
-          <p class="status" id="model-status" role="status" hidden></p>
+        <div class="notebook-banner">
+          <p>Madison answers from her checked notes.</p>
+          <a href="https://github.com/KGSUCF/ENG6806_chat-with-madison-plume/blob/main/reference-notebook.md">Browse the notebook</a>
         </div>
 
         <div id="transcript" class="transcript" role="region" aria-label="Conversation" tabindex="0">
@@ -73,11 +47,6 @@
           </article>
         </div>
         <div class="visually-hidden" id="announcement" role="status"></div>
-        <aside class="civics-reference" id="comparison-reference" aria-labelledby="comparison-title" hidden>
-          <h3 id="comparison-title"></h3>
-          <p id="comparison-facts"></p>
-          <div class="reference-sources" id="comparison-sources"></div>
-        </aside>
         <div class="starters">
           <p>Try a question</p>
           <div class="starter-buttons" id="starter-buttons"></div>
@@ -94,13 +63,12 @@
           <button id="send" class="primary send" type="submit" disabled>Send</button>
         </form>
         <div class="chat-foot">
-          <p id="answer-foot">Reference answers come from the notebook. Your questions stay on this device.</p>
-          <p id="reply-time" hidden></p>
+          <p>Your questions stay in this browser.</p>
         </div>
       </section>
     </main>
     <footer class="page-footer"><span>FROM THE MADISON PLUME BOOKS</span><span>ENG 6806 · HUMANITIES IN THE AGE OF AI</span></footer>
-    <noscript><p class="noscript">Turn on JavaScript to load the model and chat.</p></noscript>
+    <noscript><p class="noscript">Turn on JavaScript to chat with Madison.</p></noscript>
   </div>
 </body>
 </html>

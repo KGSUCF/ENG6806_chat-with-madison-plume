@@ -4,7 +4,7 @@ const groups = [
     ["three-branches", "Why three branches?", "Why do we split the U.S. government into three branches?", /\b(?:three|3) (?:branches|parts)\b|\bbranches of (?:the (?:u\.?s\.? |federal )?)?government\b|\bseparation of powers\b|\bchecks and balances\b/i],
     ["bill-to-law", "How does a bill become law?", "How does a bill become a federal law?", /\bbill\b.*\b(?:become|becomes|pass\w*|sign\w*)\b|\bhow (?:are (?:federal )?laws made|does congress make laws)\b|\bpass(?:ing)? a (?:federal )?bill\b/i],
     ["federalism", "Who has which powers?", "How does federalism divide power between the U.S. government and the states?", /\bfederalism\b|\b(?:tenth|10th) amendment\b|(?=.*\b(?:federal|national)\b)(?=.*\bstate(?:s| government)?\b)(?=.*\b(?:power\w*|authorit\w*|responsibilit\w*)\b)/i],
-    ["bill-of-rights", "What does the First Amendment protect?", "What does the First Amendment protect?", /\bbill of rights\b|\b(?:first|1st) amendment\b/i],
+    ["bill-of-rights", "What does the First Amendment protect?", "What does the First Amendment protect?", /\bbill of rights\b|\b(?:first|1st) amendment\b|\bfreedom of (?:speech|the press|religion|assembly)\b|\bright to (?:assemble peacefully|peaceful assembly|petition the government)\b/i],
     ["founding-documents", "Declaration or Constitution?", "How is the Declaration of Independence different from the Constitution?", /\bdeclaration of independence\b|\b(?:what is|what’s|what's) (?:the )?(?:u\.?s\.? )?constitution\b/i],
     ["amendment-process", "How do we amend the Constitution?", "How do we amend the Constitution?", /\bamend(?:ing)? (?:the )?constitution\b|\b(?:amendment|article v) process\b|\b(?:how|propos\w*|ratif\w*)\b.*\b(?:constitutional amendment|article v)\b/i],
   ] },

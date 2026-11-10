@@ -1,6 +1,6 @@
 # Madison Plume’s reference notebook
 
-Short explanations for readers of the Madison Plume comics. Each note links to the source used to check it. The app can show these notes directly or give the same notes to either local AI model for comparison.
+Short explanations for readers of the Madison Plume comics. Each note links to the source used to check it. Madison replies with the exact wording of the matching note.
 
 ## The Electoral College
 <!-- ref: electoral-college -->
@@ -20,9 +20,10 @@ Congress makes federal laws. The president leads the branch that carries them ou
 ## The Bill of Rights and the First Amendment
 <!-- ref: bill-of-rights -->
 
-The Bill of Rights is the first ten changes, or amendments, to the U.S. Constitution. It protects rights and sets limits on government power. The First Amendment protects religion, speech, the press, peaceful gatherings, and the right to ask the government to fix a problem.
+The Bill of Rights is the first ten amendments, or changes, to the U.S. Constitution. It protects rights and limits government power. The First Amendment protects freedom of religion, speech, and the press. It also protects the right to gather peacefully and ask the government to address a problem.
 
 - [U.S. National Archives · What the Bill of Rights says](https://www.archives.gov/founding-docs/bill-of-rights/what-does-it-say)
+- [U.S. National Archives · The First Amendment text](https://www.archives.gov/founding-docs/bill-of-rights-transcript)
 
 ## Why the Federal Reserve is independent
 <!-- ref: fed-independence -->
