@@ -43,11 +43,13 @@ export function parseNotebook(markdown) {
   for (const section of markdown.split(/^## /m).slice(1)) {
     const [title, tag, answer, ...links] = section.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
     const id = tag?.match(/^<!-- ref: ([a-z-]+) -->$/)?.[1];
+    const aside = links[0]?.match(/^\*([^*]+)\*$/)?.[1];
+    if (aside) links.shift();
     const sources = links.map(line => line.match(/^- \[([^\]]+)\]\((https:\/\/[^\s)]+)\)$/));
     if (!id || notes.has(id) || !answer || !sources.length || sources.some(link => !link)) {
       throw new Error(`Invalid notebook entry: ${title}`);
     }
-    notes.set(id, { title, answer, sources: sources.map(([, label, url]) => ({ label, url })) });
+    notes.set(id, { title, answer, aside, sources: sources.map(([, label, url]) => ({ label, url })) });
   }
   return notes;
 }

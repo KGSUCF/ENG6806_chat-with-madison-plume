@@ -1,4 +1,4 @@
-import { nextSuggestions, parseNotebook } from "./reference-notebook.js?v=9";
+import { nextSuggestions, parseNotebook } from "./reference-notebook.js?v=10";
 
 const byId = (id) => document.getElementById(id);
 const clear = byId("clear");
@@ -35,7 +35,7 @@ function rotateSuggestions() {
   }));
 }
 
-function addTurn(label, text, { user = false, sources = [] } = {}) {
+function addTurn(label, text, { user = false, aside, sources = [] } = {}) {
   const turn = document.createElement("article");
   turn.className = user ? "turn user" : "turn";
   const heading = document.createElement("h3");
@@ -43,6 +43,13 @@ function addTurn(label, text, { user = false, sources = [] } = {}) {
   const body = document.createElement("p");
   body.textContent = text;
   turn.append(heading, body);
+  if (aside) {
+    const closing = document.createElement("p");
+    const emphasis = document.createElement("em");
+    emphasis.textContent = aside;
+    closing.append(emphasis);
+    turn.append(closing);
+  }
   if (sources.length) {
     const links = document.createElement("div");
     links.className = "reference-sources";
@@ -64,11 +71,11 @@ starterButtons.addEventListener("click", (event) => {
   const index = suggestions.findIndex(({ id }) => id === button.dataset.noteId);
   if (index < 0) return;
   const { id, prompt } = suggestions[index];
-  const { answer, sources } = notebook.get(id);
+  const { answer, aside, sources } = notebook.get(id);
   const restoreFocus = document.activeElement === button;
   addTurn("You", prompt, { user: true });
-  addTurn("Madison", answer, { sources });
-  announcement.textContent = `Madison says: ${answer}`;
+  addTurn("Madison", answer, { aside, sources });
+  announcement.textContent = `Madison says: ${answer}${aside ? ` ${aside}` : ""}`;
   setPortrait("replying", "From the notebook.");
   rotateSuggestions();
   if (restoreFocus) starterButtons.children[index].focus({ preventScroll: true });

@@ -86,6 +86,7 @@ h2 { font-size: 2.15rem; line-height: 1; margin: 4px 0 0; }
 .turn h3 { font-size: .79rem; color: var(--red); margin: 0 0 3px; }
 .turn h3 span { font-weight: 500; color: var(--muted); }
 .turn p { margin: 0; font-size: .94rem; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; }
+.turn p + p { margin-top: .5em; }
 .reference-sources { display: grid; gap: 3px; margin-top: 7px; }
 .reference-sources a { color: var(--red); font-size: .78rem; font-weight: 700; }
 .starters { border-top: 1px solid var(--line); padding-block: 11px 10px; }
