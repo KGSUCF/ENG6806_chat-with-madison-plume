@@ -4,6 +4,7 @@ A browser-based chat for ENG 6806, Humanities in the Age of AI. Madison Plume is
 
 ## Use the app
 
+- [Project cover](https://kgsucf.github.io/ENG6806_chat-with-madison-plume/cover/) summarizes the experiment, with excerpts from the project discussion and links to both versions.
 - [Newest notebook version](https://kgsucf.github.io/ENG6806_chat-with-madison-plume/) gives checked answers with Madison’s italic asides.
 - [Local AI demo](https://kgsucf.github.io/ENG6806_chat-with-madison-plume/local-model/) runs the earlier Transformers.js comparison with SmolLM2 135M and 360M. Choose a model and click **Download model**. For covered questions, the demo gives the model a checked note and shows it below the generated reply for comparison. The two small models can still make mistakes.
 

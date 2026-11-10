@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare two versions of Chat with Madison Plume and see what the ENG 6806 experiment revealed about small language models.">
+  <meta name="theme-color" content="#f7eedb">
+  <title>Chat with Madison Plume | Project Cover</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #292320;
+      --muted: #554740;
+      --red: #802d39;
+      --rule: #cbb8a3;
+      --paper: #fffbf2;
+      --tan: #f5e9d7;
+      font: 100%/1.55 system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .page { width: min(58rem, calc(100% - 3rem)); margin: 2rem auto 0; }
+    .masthead {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: .35rem 1.5rem; padding-top: .65rem;
+      border-top: 3px solid var(--red);
+    }
+    .masthead p { margin: 0; }
+    .label {
+      color: var(--red); font-size: .76rem; font-weight: 800;
+      letter-spacing: .095em; text-transform: uppercase;
+    }
+    .author { color: var(--muted); font-size: .88rem; font-weight: 650; }
+    .hero {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(7rem, 23%);
+      gap: 1.5rem; align-items: center; padding: 1.85rem 0 1.6rem;
+    }
+    h1 {
+      margin: 0; font: 700 clamp(2.9rem, 7.4vw, 5.5rem)/.97 Georgia, serif;
+      letter-spacing: -.055em;
+    }
+    h1 span { display: block; color: var(--red); }
+    .subtitle { margin: .8rem 0 0; color: var(--muted); font-size: 1.13rem; }
+    .portrait {
+      display: block; width: 100%; height: auto; border: 2px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--red); background: #f0d38e;
+    }
+    .demos, .overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .demo {
+      display: block; min-width: 0; padding: .9rem 1rem 1rem; color: var(--ink);
+      text-decoration: none; border: 1px solid var(--red); border-radius: 4px;
+      background: #f6e0da;
+    }
+    .demo + .demo { background: var(--tan); }
+    .demo:hover { background: #f2d5cd; }
+    .demo:focus-visible { outline: 3px solid #166759; outline-offset: 4px; }
+    .demo-title { display: block; color: var(--red); font-weight: 800; text-decoration: underline; text-underline-offset: .15em; }
+    .demo-description { display: block; margin-top: .2rem; font-size: .93rem; }
+    .comparison-tip { margin: .7rem 0 0; color: var(--muted); font-size: .88rem; }
+    .overview { gap: 1.65rem; margin-top: 1.65rem; padding-top: 1.35rem; border-top: 1px solid var(--rule); }
+    .section-title { margin: 0 0 .35rem; font: 700 1.6rem/1.13 Georgia, serif; }
+    .overview p, .conclusion p { margin: 0; }
+    .excerpts { margin: 1.45rem 0; padding: 1rem 1.2rem 1.1rem; background: var(--tan); border-left: 3px solid var(--red); }
+    .excerpts h2 { margin: 0 0 .55rem; }
+    .excerpts figure {
+      display: grid; grid-template-columns: 10.2rem minmax(0, 1fr);
+      gap: .3rem .9rem; align-items: baseline; margin: 0;
+    }
+    .excerpts figure + figure { margin-top: .65rem; }
+    .excerpts figcaption { color: var(--muted); font-size: .76rem; font-weight: 750; }
+    blockquote { margin: 0; font: italic 1.04rem/1.45 Georgia, serif; }
+    .conclusion { margin-bottom: 2.5rem; }
+    @media (max-width: 650px) {
+      .page { width: calc(100% - 2rem); margin-top: 1rem; }
+      .hero { grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 25%); gap: .7rem; padding: 1.25rem 0; }
+      h1 { font-size: clamp(2.25rem, 8.4vw, 3.5rem); }
+      .subtitle { font-size: 1rem; }
+      .demos, .overview, .excerpts figure { grid-template-columns: 1fr; }
+      .demos { gap: .55rem; }
+      .overview { gap: 1.1rem; }
+      .excerpts { padding-inline: .9rem; }
+    }
+    @media print {
+      .page { width: 100%; margin: 0; }
+      .hero { padding-block: 1rem; }
+      h1 { font-size: 3rem; }
+      .portrait { max-width: 8rem; justify-self: end; box-shadow: none; }
+      .demos, .overview, .excerpts { break-inside: avoid; }
+      .conclusion { margin-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="label">ENG 6806 / Humanities in the Age of AI</p>
+      <p class="author">Karen Strouse</p>
+    </header>
+    <main>
+      <div class="hero">
+        <div>
+          <h1>Chat with <span>Madison Plume</span></h1>
+          <p class="subtitle">A browser-based AI experiment</p>
+        </div>
+        <img class="portrait" src="../assets/madison-plume.webp" width="860" height="860" alt="Madison Plume, a silver-haired cartoon author in a black hat with a red feather.">
+      </div>
+
+      <nav class="demos" aria-label="Try the two versions">
+        <a class="demo" href="../local-model/">
+          <span class="demo-title">Open the local AI demo</span>
+          <span class="demo-description">Download a model and compare its reply with the checked note.</span>
+        </a>
+        <a class="demo" href="../">
+          <span class="demo-title">Open the newest notebook version</span>
+          <span class="demo-description">Pick a question for a checked answer and an italic punch line.</span>
+        </a>
+      </nav>
+      <p class="comparison-tip">Try the Electoral College question in both versions.</p>
+
+      <div class="overview">
+        <section aria-labelledby="built">
+          <h2 class="section-title" id="built">What we built</h2>
+          <p>We used Codex to build a chat for Madison Plume, a graphic novelist who explains civics, economics, and media literacy. The local AI demo runs SmolLM2 135M or 360M through Transformers.js. For covered questions, it gives the model a checked notebook entry and shows that entry alongside the generated reply.</p>
+        </section>
+        <section aria-labelledby="changed">
+          <h2 class="section-title" id="changed">Why we changed course</h2>
+          <p>The small models sometimes produced garbled text, incomplete replies, or misleading explanations. We checked the notebook against public sources, including the National Archives and the Federal Reserve. The newest version serves 21 edited answers directly, with Madison’s humor and links to the sources.</p>
+        </section>
+      </div>
+
+      <section class="excerpts" aria-labelledby="excerpts">
+        <h2 class="label" id="excerpts">From the project conversation</h2>
+        <figure>
+          <figcaption>Testing the model</figcaption>
+          <blockquote>“… the Electoral College answer sounds like you shouldn't bother voting if you're not in a swing state. Not good.”</blockquote>
+        </figure>
+        <figure>
+          <figcaption>Choosing a strategy</figcaption>
+          <blockquote>“Is it possible that Madison should answer only with specific text from the notebook (which appears to be correct always) instead of coming up with her own sentences.”</blockquote>
+        </figure>
+        <figure>
+          <figcaption>Keeping the voice</figcaption>
+          <blockquote>“Should the answers contain the same meaning as the formal paragraphs but in a funnier manner -- without changing the meaning or becoming inaccurate?”</blockquote>
+        </figure>
+      </section>
+
+      <section class="conclusion" aria-labelledby="conclusion">
+        <h2 class="section-title" id="conclusion">What we concluded</h2>
+        <p>Running locally keeps the conversation on the device. A checked note in the prompt still left room for misleading replies. The edited notebook gave us control over accuracy and voice. Both chats can continue offline in the same tab after loading online. For the AI demo, wait for the model to finish downloading and show <strong>Ready</strong>.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
